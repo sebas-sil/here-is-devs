@@ -20,15 +20,18 @@ module.exports = {
 
             // chamada para a API do github
             const req = await axios.get(`https://api.github.com/users/${github}`)
-            const { name = login, bio, avatar_url } = req.data
-            console.log(name, bio, avatar_url, github, techs, latitude, longitude)
+            const { name, login, bio, avatar_url } = req.data
+
+            
+
+            console.log(name ? name : login, bio, avatar_url, github, techs, latitude, longitude)
 
             const location = {
                 type: 'Point',
                 coordinates: [longitude, latitude]
             }
             dev = await Dev.create({
-                name,
+                name: (name ? name : login),
                 github,
                 bio,
                 avatar_url,
